@@ -26,7 +26,7 @@ const Home: NextPage = () => {
         </div>
         
         <h1 className={styles.title}>Meet REM.</h1>
-        <h2 className={styles.subtitle}>An innovative bot for new needs.</h2>
+        <h2 className={styles.subtitle}>A new take on the discord bot for a new discord.</h2>
 
         <footer className={styles.footer}>
           <span>
