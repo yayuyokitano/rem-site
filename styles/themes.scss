@@ -1,0 +1,13 @@
+:root {
+  --background: white;
+  --background2: #c88afe;
+  --foreground: black;
+  --accent1: #4c018d;
+}
+
+[data-theme="dark"] {
+  --background: black;
+  --background2: #39006a;
+  --foreground: white;
+  --accent1: #c88afe;
+}

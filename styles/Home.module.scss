@@ -1,0 +1,67 @@
+.header,
+.footer {
+  position: absolute;
+  padding: 1rem;
+  width: 100%;
+}
+
+.header {
+  top: 0;
+  text-align: right;
+  padding-right: 1.5rem;
+}
+
+.main {
+  padding-top: 15vh;
+  text-align: center;
+  background-color: var(--background);
+  color: var(--foreground);
+  overflow: visible;
+}
+
+.profile {
+  animation: 1s ease-in-out 0s 1 slideInFromTop;
+}
+
+.profileimage {
+  border-radius: 50%;
+}
+
+.title {
+  opacity: 0;
+  animation: 400ms ease-in-out 0.62s 1 slideInFromLeft forwards;
+}
+
+.subtitle {
+  opacity: 0;
+  animation: 300ms ease-in-out 0.81s 1 slideInFromLeft forwards;
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+.footer {
+  bottom: 0;
+  text-align: center;
+}
+
+@keyframes slideInFromTop {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-6rem);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
