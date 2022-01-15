@@ -31,9 +31,9 @@ const Home: NextPage = () => {
         <footer className={styles.footer}>
           <span>
             Made with love by&nbsp;
-            <a href="https://github.com/yayuyokitano" target="_blank">yayuyokitano</a>
+            <a href="https://github.com/yayuyokitano" target="_blank" rel="noreferrer">yayuyokitano</a>
             &nbsp;in the likeness of&nbsp;
-            <a href="https://twitter.com/KITANO_REM" target="_blank">KITANO REM</a> 🤍
+            <a href="https://twitter.com/KITANO_REM" target="_blank" rel="noreferrer">KITANO REM</a> 🤍
           </span>
         </footer>
       </main>
