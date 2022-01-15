@@ -24,7 +24,7 @@ const Home: NextPage = () => {
     <div className={styles.container}>
       <Head>
         <title>REM - discord bot</title>
-        <meta name="description" content="Meet REM, an innovative bot for new needs." />
+        <meta name="description" content="Meet REM, a new take on the discord bot for a new discord." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

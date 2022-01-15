@@ -1,6 +1,6 @@
 .header,
 .footer {
-  position: absolute;
+  position: fixed;
   padding: 1rem;
   width: 100%;
 }
@@ -19,7 +19,6 @@
   text-align: center;
   background-color: var(--background);
   color: var(--foreground);
-  overflow: visible;
 }
 
 .profile {
