@@ -15,7 +15,7 @@ const getNewTheme = (theme:string|undefined) => theme === "dark" ? "light" : "da
 
 export function ThemeChanger(props:ThemeChangerProps) {
   return (
-    <button className={props.buttonClass} onClick={() => {props.setTheme(getNewTheme(props.resolvedTheme))}}>
+    <button name="theme" aria-label="theme" className={props.buttonClass} onClick={() => {props.setTheme(getNewTheme(props.resolvedTheme))}}>
       <ThemeIcon resolvedTheme={props.resolvedTheme} />
     </button>
   )
