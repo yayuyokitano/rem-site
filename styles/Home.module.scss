@@ -9,6 +9,8 @@
   top: 0;
   text-align: right;
   padding-right: 1.5rem;
+  opacity: 0;
+  animation: 400ms ease-in-out 0.8s 1 slideInFromTop forwards;
 }
 
 .main {
@@ -30,24 +32,37 @@
 
 .title {
   opacity: 0;
-  animation: 400ms ease-in-out 0.62s 1 slideInFromLeft forwards;
+  animation: 400ms ease-in-out 0.63s 1 slideInFromLeft forwards;
 }
 
 .subtitle {
   opacity: 0;
-  animation: 300ms ease-in-out 0.81s 1 slideInFromLeft forwards;
+  animation: 300ms ease-in-out 0.84s 1 slideInFromLeft forwards;
   font-size: 1rem;
   font-weight: normal;
 }
 
 .footer {
   bottom: 0;
+  opacity: 0;
   text-align: center;
+  animation: 400ms ease-in-out 0.8s 1 slideInFromBottom forwards;
 }
 
 @keyframes slideInFromTop {
   0% {
     transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromBottom {
+  0% {
+    transform: translateY(100%);
     opacity: 0;
   }
   100% {
