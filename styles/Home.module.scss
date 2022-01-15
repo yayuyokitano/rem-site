@@ -9,6 +9,7 @@
   top: 0;
   display: flex;
   align-items: center;
+  vertical-align: middle;
   justify-content: flex-end;
   padding-right: 0 1.5rem;
   opacity: 0;
@@ -19,6 +20,7 @@
   background: none;
   border: none;
   cursor: pointer;
+  margin-right: auto;
 
   &:hover {
     color: var(--accent1);
