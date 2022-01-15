@@ -1,9 +1,24 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { getNewState } from "../helpers/auth";
+import { IndexState } from "../helpers/types/states";
 import styles from "../styles/Home.module.scss";
 
 const Home: NextPage = () => {
+
+  const [data, setData] = useState<IndexState>();
+  const [isLoading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+    setData({
+      state: getNewState()
+    });
+    setLoading(false);
+  }, []);
+
+  if(isLoading) return <div></div>
 
   return (
     <div className={styles.container}>
@@ -14,7 +29,8 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <header className={styles.header}>login</header>
+        <header className={styles.header}>
+          <a href={`https://discord.com/api/oauth2/authorize?client_id=541298511430287395&redirect_uri=https%3A%2F%2Frem.fm%2Fauthentication&response_type=code&scope=identify%20guilds&state=${data?.state}`} target="_blank" rel="noreferrer">login</a></header>
 
         <div className={styles.profile}>
           <Image className={styles.profileimage}

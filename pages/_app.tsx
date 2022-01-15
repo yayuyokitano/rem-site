@@ -1,5 +1,5 @@
-import "../styles/globals.scss";
-import "../styles/themes.scss";
+import "../styles/util/globals.scss";
+import "../styles/util/themes.scss";
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "next-themes";
 
