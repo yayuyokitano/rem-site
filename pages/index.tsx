@@ -34,7 +34,7 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <header className={styles.header}>
           <ThemeChanger resolvedTheme={resolvedTheme} setTheme={setTheme} buttonClass={styles.themebutton} />
-          <a href={`https://discord.com/api/oauth2/authorize?client_id=541298511430287395&redirect_uri=https%3A%2F%2Frem.fm%2Fauthentication&response_type=code&scope=identify%20guilds&state=${data?.state}`}>login</a></header>
+          <a href={`https://discord.com/api/oauth2/authorize?client_id=541298511430287395&redirect_uri=https%3A%2F%2Frem.fm%2Fauthorization&response_type=code&scope=identify%20guilds&state=${data?.state}`}>login</a></header>
 
         <div className={styles.profile}>
           <Image className={styles.profileimage}

@@ -20,7 +20,7 @@ const Auth: NextPage = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>REM - Authentication succeeded</title>
+        <title>REM - Authorization succeeded</title>
         <meta name="description" content="Meet REM, an innovative bot for new needs." />
         <meta name="robots" content="noindex" />
         <link rel="icon" href="/favicon.ico" />
@@ -45,7 +45,7 @@ const AuthBody = (props:{
 const SuccessBody = (data:AuthState) => {
   return (
     <main className={styles.main}>
-      <h1 className={styles.title}>Authentication succeeded.</h1>
+      <h1 className={styles.title}>Authorization succeeded.</h1>
       <p>Please wait to be redirected.</p>
       {data.code}
     </main>
@@ -55,7 +55,7 @@ const SuccessBody = (data:AuthState) => {
 const FailBody = () => {
   return (
     <main className={styles.main}>
-      <h1 className={styles.title}>Authentication failed.</h1>
+      <h1 className={styles.title}>Authorization failed.</h1>
       <p>Please note you could have been clickjacked.</p>
       <p>Please try again.</p>
     </main>
