@@ -7,10 +7,8 @@ import * as config from "../helpers/config";
 const Auth: NextPage = () => {
 
   const [didFetchToken, setDidFetchToken] = useState<boolean>();
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   useEffect(() => {
-    setLoading(true);
-
     authorizeUser(window.location.search).then(wasSuccessful => {
       setDidFetchToken(wasSuccessful);
       setLoading(false);
@@ -69,7 +67,6 @@ const FailBody = () => {
   return (
     <main className={styles.main}>
       <h1 className={styles.title}>Authorization failed.</h1>
-      <p>Please note you could have been clickjacked. But most likely it was just a random error.</p>
       <p>Please try again.</p>
     </main>
   );
