@@ -1,7 +1,6 @@
 .header,
 .footer {
 	position: fixed;
-	padding: 1rem;
 	width: 100%;
 }
 
@@ -21,10 +20,31 @@
 	border: none;
 	cursor: pointer;
 	margin-right: auto;
+	padding-left: 1rem;
 
 	&:hover {
 		color: var(--accent1);
 	}
+}
+
+.user {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	padding: 1rem;
+
+	&:hover {
+		background-color: var(--background2);
+	}
+}
+
+.avatar,
+.profileimage {
+	border-radius: 50%;
+}
+
+.username {
+	margin-left: 0.5rem;
 }
 
 .main {
@@ -37,10 +57,6 @@
 
 .profile {
 	animation: 1s ease-in-out 0s 1 slideInFromTop;
-}
-
-.profileimage {
-	border-radius: 50%;
 }
 
 .title {

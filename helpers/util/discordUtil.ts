@@ -1,0 +1,1 @@
+export const avatarURL = (userID:string, avatar:string) => `https://cdn.discordapp.com/avatars/${userID}/${avatar}.webp?size=160`;
