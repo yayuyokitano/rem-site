@@ -1,15 +1,15 @@
 :root {
-  --background: white;
-  --background2: #c88afe;
-  --foreground: black;
-  --accent1: #4c018d;
-  --accentdesaturated: #4a2569;
+	--background: white;
+	--background2: #c88afe;
+	--foreground: black;
+	--accent1: #4c018d;
+	--accentdesaturated: #4a2569;
 }
 
 [data-theme="dark"] {
-  --background: black;
-  --background2: #39006a;
-  --foreground: white;
-  --accent1: #c88afe;
-  --accentdesaturated: #c6a8e0;
+	--background: black;
+	--background2: #39006a;
+	--foreground: white;
+	--accent1: #c88afe;
+	--accentdesaturated: #c6a8e0;
 }

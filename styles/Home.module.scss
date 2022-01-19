@@ -1,96 +1,96 @@
 .header,
 .footer {
-  position: fixed;
-  padding: 1rem;
-  width: 100%;
+	position: fixed;
+	padding: 1rem;
+	width: 100%;
 }
 
 .header {
-  top: 0;
-  display: flex;
-  align-items: center;
-  vertical-align: middle;
-  justify-content: flex-end;
-  padding-right: 0 1.5rem;
-  opacity: 0;
-  animation: 400ms ease-in-out 0.8s 1 slideInFromTop forwards;
+	top: 0;
+	display: flex;
+	align-items: center;
+	vertical-align: middle;
+	justify-content: flex-end;
+	padding-right: 0 1.5rem;
+	opacity: 0;
+	animation: 400ms ease-in-out 0.8s 1 slideInFromTop forwards;
 }
 
 .themebutton {
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-right: auto;
+	background: none;
+	border: none;
+	cursor: pointer;
+	margin-right: auto;
 
-  &:hover {
-    color: var(--accent1);
-  }
+	&:hover {
+		color: var(--accent1);
+	}
 }
 
 .main {
-  padding-top: 15vh;
-  min-height: 100vh;
-  text-align: center;
-  background-color: var(--background);
-  color: var(--foreground);
+	padding-top: 15vh;
+	min-height: 100vh;
+	text-align: center;
+	background-color: var(--background);
+	color: var(--foreground);
 }
 
 .profile {
-  animation: 1s ease-in-out 0s 1 slideInFromTop;
+	animation: 1s ease-in-out 0s 1 slideInFromTop;
 }
 
 .profileimage {
-  border-radius: 50%;
+	border-radius: 50%;
 }
 
 .title {
-  opacity: 0;
-  animation: 400ms ease-in-out 0.63s 1 slideInFromLeft forwards;
+	opacity: 0;
+	animation: 400ms ease-in-out 0.63s 1 slideInFromLeft forwards;
 }
 
 .subtitle {
-  opacity: 0;
-  animation: 300ms ease-in-out 0.84s 1 slideInFromLeft forwards;
-  font-size: 1rem;
-  font-weight: normal;
+	opacity: 0;
+	animation: 300ms ease-in-out 0.84s 1 slideInFromLeft forwards;
+	font-size: 1rem;
+	font-weight: normal;
 }
 
 .footer {
-  bottom: 0;
-  opacity: 0;
-  text-align: center;
-  animation: 400ms ease-in-out 0.8s 1 slideInFromBottom forwards;
+	bottom: 0;
+	opacity: 0;
+	text-align: center;
+	animation: 400ms ease-in-out 0.8s 1 slideInFromBottom forwards;
 }
 
 @keyframes slideInFromTop {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+	0% {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+	}
 }
 
 @keyframes slideInFromBottom {
-  0% {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+	0% {
+		transform: translateY(100%);
+		opacity: 0;
+	}
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+	}
 }
 
 @keyframes slideInFromLeft {
-  0% {
-    transform: translateX(-6rem);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
+	0% {
+		transform: translateX(-6rem);
+		opacity: 0;
+	}
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
 }
