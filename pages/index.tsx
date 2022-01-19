@@ -3,10 +3,12 @@ import { useTheme } from "next-themes";
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { getNewState } from "../helpers/auth";
-import { IndexState } from "../helpers/types/states";
 import { ThemeChanger } from "../helpers/util/themechanger";
 import styles from "../styles/Home.module.scss";
+
+type IndexState = {
+  state: string;
+}
 
 const Home: NextPage = () => {
 
@@ -61,5 +63,19 @@ const Home: NextPage = () => {
     </div>
   )
 }
+
+function getNewState() {
+  const state = generateRandomString();
+  localStorage.setItem("oauth-state", state);
+  return state;
+}
+
+function generateRandomString() {
+	const arr = new Uint8Array(40);
+  window.crypto.getRandomValues(arr);
+	return Array.from(arr, dec2hex).join('');
+}
+
+const dec2hex = (dec:number) => dec.toString(16).padStart(2, "0");
 
 export default Home

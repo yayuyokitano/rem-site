@@ -1,0 +1,1 @@
+export const remURL = "http://us-central1-rem-970606.cloudfunctions.net";
