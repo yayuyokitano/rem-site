@@ -1,7 +1,7 @@
 export function avatarURL(userID:string, avatar:string) {
   if (avatar.startsWith("a_")) {
-    return `https://cdn.discordapp.com/avatars/${userID}/${avatar}.gif`;
+    return `https://cdn.discordapp.com/avatars/${userID}/${avatar}.gif?size=48`;
   } else {
-    return `https://cdn.discordapp.com/avatars/${userID}/${avatar}.webp?size=160`
+    return `https://cdn.discordapp.com/avatars/${userID}/${avatar}.webp?size=48`
   }
 };
