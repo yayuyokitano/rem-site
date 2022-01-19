@@ -16,7 +16,7 @@ const Auth: NextPage = () => {
 			setLoading(false);
 			setTimeout(() => {
 				Router.push("/");
-			})
+			}, 1500)
 		}).catch(() => {
 			setDidFetchToken(false);
 			setLoading(false);
