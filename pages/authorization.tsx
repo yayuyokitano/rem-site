@@ -6,18 +6,21 @@ import * as config from "../helpers/config";
 
 const Auth: NextPage = () => {
 
-  const [data, setData] = useState<boolean>();
+  const [didFetchToken, setDidFetchToken] = useState<boolean>();
   const [isLoading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
 
     authorizeUser(window.location.search).then(wasSuccessful => {
-      setData(wasSuccessful);
+      setDidFetchToken(wasSuccessful);
+      setLoading(false);
+    }).catch(() => {
+      setDidFetchToken(false);
       setLoading(false);
     });
   }, []);
 
-  if(isLoading) return AwaitingBody();
+  if(isLoading) return <AwaitingBody />;
 
   return (
     <div className={styles.container}>
@@ -28,7 +31,7 @@ const Auth: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <AuthBody success={data} />
+      <AuthBody success={didFetchToken} />
       
     </div>
   );
