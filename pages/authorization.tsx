@@ -108,7 +108,7 @@ async function authorizeUser(search:string) {
 	const res = await fetch(`${config.remBackendURL}/authorize-discord`, {
 		method: "POST",
 		body: JSON.stringify({
-			code: code
+			code
 		})
 	});
 	if (!res.ok) {

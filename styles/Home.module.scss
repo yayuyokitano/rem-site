@@ -27,11 +27,14 @@
 	}
 }
 
+.login {
+	padding: 1rem;
+}
+
 .user {
 	display: flex;
 	align-items: center;
 	cursor: pointer;
-	padding: 1rem;
 
 	&:hover {
 		background-color: var(--background2);

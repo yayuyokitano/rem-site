@@ -3,9 +3,9 @@ import { useTheme } from "next-themes";
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { avatarURL } from "../helpers/util/discordUtil";
 import { ThemeChanger } from "../helpers/util/themechanger";
 import styles from "../styles/Home.module.scss";
-import { getCurrentUserNaive } from "../helpers/util/discordAuth";
 
 type IndexState = {
 	type: "unauthorized";
@@ -26,7 +26,6 @@ const Home: NextPage = () => {
 		setLoading(true);
 		setData(getCurrentUserNaive());
 		setLoading(false);
-		//getCurrentUserStrict().then()
 	}, []);
 
 	if(isLoading) return <div></div>
@@ -82,7 +81,40 @@ function UserDisplay(props:{
 			</div>
 		)
 	}
-	return <a className={styles.login} href={`https://discord.com/api/oauth2/authorize?client_id=541298511430287395&redirect_uri=https%3A%2F%2Frem.fm%2Fauthorization&response_type=code&scope=identify%20guilds&state=${props?.userData?.state}`}>login</a>
+	return <a href={`https://discord.com/api/oauth2/authorize?client_id=541298511430287395&redirect_uri=https%3A%2F%2Frem.fm%2Fauthorization&response_type=code&scope=identify%20guilds&state=${props?.userData?.state}`}>login</a>
 }
+
+function getCurrentUserNaive() {
+	const username = localStorage.getItem("username");
+	const discriminator = localStorage.getItem("discriminator");
+	const avatar = localStorage.getItem("avatar");
+	const userID = localStorage.getItem("userID");
+	if(username && discriminator && avatar && userID) {
+		return {
+			type: "authorized" as "authorized",
+			username,
+			discriminator,
+			avatar: avatarURL(userID, avatar)
+		};
+	}
+	return {
+		type: "unauthorized" as "unauthorized",
+		state: getNewState()
+	}
+}
+
+function getNewState() {
+	const state = generateRandomString();
+	localStorage.setItem("oauth-state", state);
+	return state;
+}
+
+function generateRandomString() {
+	const arr = new Uint8Array(40);
+	window.crypto.getRandomValues(arr);
+	return Array.from(arr, dec2hex).join('');
+}
+
+const dec2hex = (dec:number) => dec.toString(16).padStart(2, "0");
 
 export default Home
