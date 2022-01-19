@@ -22,7 +22,7 @@ export function getCurrentUserNaive() {
 
 export async function getCurrentUserStrict() {
   const userID = localStorage.getItem("userID");
-  const token = localStorage.getItem("token");
+  const token = Number(localStorage.getItem("token")) || 0;
   if(userID && token) {
     const res = await fetch(`${config.remBackendURL}/verify-user`, {
       method: "POST",
