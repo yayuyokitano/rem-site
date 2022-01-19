@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ThemeChanger } from "../helpers/util/themechanger";
 import styles from "../styles/Home.module.scss";
-import { getCurrentUserNaive } from "../helpers/util/discordAuth";
+import { getCurrentUserNaive, getCurrentUserStrict, removeUserData } from "../helpers/util/discordAuth";
 
 type IndexState = {
 	type: "unauthorized";
@@ -26,7 +26,11 @@ const Home: NextPage = () => {
 		setLoading(true);
 		setData(getCurrentUserNaive());
 		setLoading(false);
-		//getCurrentUserStrict().then()
+		getCurrentUserStrict().then(userData => {
+      setData(userData);
+    }).catch(_ => {
+      removeUserData();
+    });
 	}, []);
 
 	if(isLoading) return <div></div>
