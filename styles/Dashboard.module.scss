@@ -50,11 +50,16 @@
 .sidebar {
 	top: 64px;
 	position: fixed;
-	overflow-y: scroll;
+	overflow-y: hidden;
 	overflow-x: hidden;
 	width: 64px;
 	height: calc(100% - 64px);
 	padding: 0;
+
+  &:hover,
+  &:focus-within {
+    overflow-y: auto;
+  }
 }
 
 .guildlist {
