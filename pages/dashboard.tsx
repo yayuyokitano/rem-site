@@ -53,6 +53,12 @@ const Home: NextPage = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
+      <style jsx global>{`
+        body {
+          overflow: hidden;
+        }
+      `}</style>
+
 			<header className={styles.header}>
 				<ThemeChanger resolvedTheme={resolvedTheme} setTheme={setTheme} buttonClass={styles.themebutton} />
         <h1>Dashboard</h1>
@@ -64,17 +70,18 @@ const Home: NextPage = () => {
         setActiveGuild={setActiveGuild}
         setSidebarScroll={setSidebarScroll}
       />
-			<GuildLabels
-				className={styles.labelsidebar}
-				activeLabel={activeLabel}
-        guilds={guilds}
-        sidebarScroll={sidebarScroll}
-			/>
-
-			<main className={styles.main}>
-				<h2 className={styles.guildname}>{activeGuild?.guild.name}</h2>
-        <p>hello</p>
-			</main>
+			<div className={styles.main}>
+        <GuildLabels
+          className={styles.labelsidebar}
+          activeLabel={activeLabel}
+          guilds={guilds}
+          sidebarScroll={sidebarScroll}
+        />
+        <main>
+          <h2 className={styles.guildname}>{activeGuild?.guild.name}</h2>
+          <p>hello</p>
+        </main>
+			</div>
 		</div>
 	);
 
@@ -105,7 +112,7 @@ function GuildLabels(props: {
 	const {className, activeLabel, guilds} = props;
 	
 	return (
-		<ul className={className} style={{top: `${64 - (props?.sidebarScroll ?? 0)}px`}}>
+		<ul className={className} style={{top: `${48 - (props?.sidebarScroll ?? 0)}px`}}>
 			{guilds?.map((guild, i) => {
 				return (
 					<GuildLabel

@@ -8,6 +8,8 @@
 	justify-content: flex-start;
 	padding-right: 0 1.5rem;
 	height: 64px;
+  z-index: 10;
+  background-color: var(--background);
 }
 
 .themebutton {
@@ -114,12 +116,14 @@
 }
 
 .labelsidebar {
-  position: fixed;
+  position: absolute;
   left: 64px;
   display: flex;
   flex-direction: column;
-  margin: 0;
   padding: 0;
+  overflow: visible;
+  width: 1px;
+  height: 1px;
 
   .guildlabel {
     transform-origin: left;
@@ -135,6 +139,8 @@
     flex-direction: row;
     align-items: center;
     transform: scaleX(0);
+    flex-shrink: 0;
+    position: relative;
 
     &.activelabel {
       transform: scaleX(1);
@@ -149,11 +155,10 @@
 
 .main {
 	margin-top: 64px;
-	margin-left: 70px;
+	margin-left: 64px;
 	max-height: calc(100vh - 64px);
 	color: var(--foreground);
 	overflow-y: auto;
-	z-index: -100;
 }
 
 .guildname {
