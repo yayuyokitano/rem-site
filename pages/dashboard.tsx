@@ -55,6 +55,7 @@ const Home: NextPage = () => {
 
 			<header className={styles.header}>
 				<ThemeChanger resolvedTheme={resolvedTheme} setTheme={setTheme} buttonClass={styles.themebutton} />
+        <h1>Dashboard</h1>
 			</header>
 
       <Sidebar
@@ -71,7 +72,7 @@ const Home: NextPage = () => {
 			/>
 
 			<main className={styles.main}>
-				<h1 className={styles.guildname}>{activeGuild?.guild.name}</h1>
+				<h2 className={styles.guildname}>{activeGuild?.guild.name}</h2>
 			</main>
 		</div>
 	);
