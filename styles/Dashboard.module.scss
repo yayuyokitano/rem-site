@@ -71,6 +71,8 @@
 .guild {
 
 	padding-left: 8px;
+  height: 52px;
+  width: 64px;
 	cursor: pointer;
 
 	.guildicon {
@@ -124,7 +126,7 @@
     list-style: none;
     padding-left: 0;
     padding-right: 0.5em;
-    margin-bottom: 3.5px;
+    margin-bottom: 4px;
     height: 48px;
     width: max-content;
     background-color: var(--background2);
