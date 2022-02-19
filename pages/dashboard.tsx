@@ -73,6 +73,7 @@ const Home: NextPage = () => {
 
 			<main className={styles.main}>
 				<h2 className={styles.guildname}>{activeGuild?.guild.name}</h2>
+        <p>hello</p>
 			</main>
 		</div>
 	);

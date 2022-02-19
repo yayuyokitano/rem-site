@@ -150,12 +150,13 @@
 .main {
 	margin-top: 64px;
 	margin-left: 70px;
-	min-height: 200vh;
+	max-height: calc(100vh - 64px);
 	color: var(--foreground);
-	overflow-y: scroll;
+	overflow-y: auto;
 	z-index: -100;
 }
 
 .guildname {
   margin-top: 0;
+  margin-bottom: 100vh;
 }
