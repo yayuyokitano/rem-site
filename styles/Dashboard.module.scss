@@ -1,0 +1,155 @@
+.header {
+	position: fixed;
+	width: 100%;
+	top: 0;
+	display: flex;
+	align-items: center;
+	vertical-align: middle;
+	justify-content: flex-end;
+	padding-right: 0 1.5rem;
+	height: 64px;
+}
+
+.themebutton {
+	background: none;
+	border: none;
+	cursor: pointer;
+	margin-right: auto;
+	padding-left: calc(1rem + 3px);
+
+	&:hover {
+		color: var(--accent1);
+	}
+}
+
+.login,
+.user {
+	padding: 1rem;
+}
+
+.user {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	border-radius: 0 0 0 32px;
+
+	&:hover {
+		background-color: var(--background2);
+	}
+}
+
+.avatar,
+.profileimage {
+	border-radius: 50%;
+}
+
+.username {
+	margin-left: 0.5rem;
+}
+
+.sidebar {
+	top: 64px;
+	position: fixed;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	width: 64px;
+	height: calc(100% - 64px);
+	padding: 0;
+}
+
+.guildlist {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	overflow-y: scroll;
+}
+
+.guild {
+
+	padding-left: 8px;
+	cursor: pointer;
+
+	.guildicon {
+		border-radius: 50%;
+		transition: border-radius 200ms ease-in-out;
+	}
+
+	&:hover {
+		.guildicon {
+			border-radius: 30%;
+		}
+	}
+
+	&[data-remismember="false"] {
+		&>span {
+			filter: blur(1px);
+		}
+		filter: saturate(0);
+	}
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: 64px;
+    left: 0;
+    height: 48px;
+    transform-origin: left;
+    background-color: var(--background2);
+    transform: scaleX(0);
+    transition: transform 50ms ease-out 50ms;
+  }
+
+  &:hover {
+    &:before {
+      transform: scaleX(1);
+      transition: transform 50ms ease-in;
+    }
+  }
+}
+
+.labelsidebar {
+  position: fixed;
+  left: 64px;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+
+  .guildlabel {
+    transform-origin: left;
+    list-style: none;
+    padding-left: 0;
+    padding-right: 0.5em;
+    margin-bottom: 3.5px;
+    height: 48px;
+    width: max-content;
+    background-color: var(--background2);
+    transition: transform 50ms ease-in;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    transform: scaleX(0);
+
+    &.activelabel {
+      transform: scaleX(1);
+      transition: transform 50ms ease-out 50ms;
+    }
+
+    &.nonmemberlabel {
+      filter: saturate(0);
+    }
+  }
+}
+
+.main {
+	margin-top: 64px;
+	margin-left: 70px;
+	min-height: 200vh;
+	color: var(--foreground);
+	overflow-y: scroll;
+	z-index: -100;
+}
+
+.guildname {
+  margin-top: 0;
+}

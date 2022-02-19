@@ -21,49 +21,48 @@ export function getCurrentUserNaive() {
 }
 
 export async function getCurrentUserStrict() {
-  const userID = localStorage.getItem("userID");
-  const token = Number(localStorage.getItem("token")) || 0;
-  if(userID && token) {
-    const res = await fetch(`${config.remBackendURL}/verify-user`, {
-      method: "POST",
-      body: JSON.stringify({
-        userID,
-        token
-      })
-    });
-    if (!res.ok) {
-      return removeUserData();
-    }
-    const resp = await res.json();
-    console.log(resp);
-    const { username, discriminator, avatar } = resp;
+	const userID = localStorage.getItem("userID");
+	const token = Number(localStorage.getItem("token")) || 0;
+	if(userID && token) {
+		const res = await fetch(`${config.remBackendURL}/verify-user`, {
+			method: "POST",
+			body: JSON.stringify({
+				userID,
+				token
+			})
+		});
+		if (!res.ok) {
+			return removeUserData();
+		}
+		const resp = await res.json();
+		const { username, discriminator, avatar } = resp;
 
-    localStorage.setItem("username", username);
-    localStorage.setItem("discriminator", discriminator);
-    localStorage.setItem("avatar", avatar);
-    return {
-      type: "authorized" as "authorized",
-      username,
-      discriminator,
-      avatar: avatarURL(userID, avatar)
-    }
-  }
-  return removeUserData();
-  
+		localStorage.setItem("username", username);
+		localStorage.setItem("discriminator", discriminator);
+		localStorage.setItem("avatar", avatar);
+		return {
+			type: "authorized" as "authorized",
+			username,
+			discriminator,
+			avatar: avatarURL(userID, avatar)
+		}
+	}
+	return removeUserData();
+	
 }
 
 export function removeUserData() {
-  if (process.env.NODE_ENV === "production") {
-    localStorage.removeItem("username");
-    localStorage.removeItem("discriminator");
-    localStorage.removeItem("avatar");
-    localStorage.removeItem("userID");
-    localStorage.removeItem("token");
-  }
-  return {
-    type: "unauthorized" as "unauthorized",
-    state: getNewState()
-  }
+	if (process.env.NODE_ENV === "production") {
+		localStorage.removeItem("username");
+		localStorage.removeItem("discriminator");
+		localStorage.removeItem("avatar");
+		localStorage.removeItem("userID");
+		localStorage.removeItem("token");
+	}
+	return {
+		type: "unauthorized" as "unauthorized",
+		state: getNewState()
+	}
 }
 
 function getNewState() {

@@ -36,6 +36,7 @@
 	display: flex;
 	align-items: center;
 	cursor: pointer;
+	border-radius: 0 0 0 32px;
 
 	&:hover {
 		background-color: var(--background2);

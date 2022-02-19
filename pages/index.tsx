@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import { useTheme } from "next-themes";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ThemeChanger } from "../helpers/util/themechanger";
 import styles from "../styles/Home.module.scss";
@@ -27,10 +28,10 @@ const Home: NextPage = () => {
 		setData(getCurrentUserNaive());
 		setLoading(false);
 		getCurrentUserStrict().then(userData => {
-      setData(userData);
-    }).catch(_ => {
-      removeUserData();
-    });
+			setData(userData);
+		}).catch(_ => {
+			removeUserData();
+		});
 	}, []);
 
 	if(isLoading) return <div></div>
@@ -43,12 +44,12 @@ const Home: NextPage = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<main className={styles.main}>
-				<header className={styles.header}>
-					<ThemeChanger resolvedTheme={resolvedTheme} setTheme={setTheme} buttonClass={styles.themebutton} />
-					<UserDisplay userData={data}/>
-				</header>
+			<header className={styles.header}>
+				<ThemeChanger resolvedTheme={resolvedTheme} setTheme={setTheme} buttonClass={styles.themebutton} />
+				<UserDisplay userData={data}/>
+			</header>
 
+			<main className={styles.main}>
 				<div className={styles.profile}>
 					<Image className={styles.profileimage}
 						src="/rem.jpg"
@@ -79,11 +80,13 @@ function UserDisplay(props:{
 	userData: IndexState | undefined;
 }) {
 	if (props?.userData?.type === "authorized") {
-		return (
-			<div className={styles.user}>
-				<Image className={styles.avatar} src={props.userData.avatar} alt="" width={32} height={32} />
-				<span className={styles.username}>{props.userData.username}#{props.userData.discriminator}</span>
-			</div>
+		return (		
+			<Link href="/dashboard">
+				<div className={styles.user}>
+					<Image className={styles.avatar} src={props.userData.avatar} alt="" width={32} height={32} />
+					<span className={styles.username}>{props.userData.username}#{props.userData.discriminator}</span>
+				</div>
+			</Link>
 		)
 	}
 	return <a className={styles.login} href={`https://discord.com/api/oauth2/authorize?client_id=541298511430287395&redirect_uri=https%3A%2F%2Frem.fm%2Fauthorization&response_type=code&scope=identify%20guilds&state=${props?.userData?.state}`}>login</a>
