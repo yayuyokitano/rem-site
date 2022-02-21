@@ -81,7 +81,7 @@ function UserDisplay(props:{
 }) {
 	if (props?.userData?.type === "authorized") {
 		return (		
-			<Link href="/dashboard">
+			<Link href="/dashboard" passHref>
 				<div className={styles.user}>
 					<Image className={styles.avatar} src={props.userData.avatar} alt="" width={32} height={32} />
 					<span className={styles.username}>{props.userData.username}#{props.userData.discriminator}</span>
