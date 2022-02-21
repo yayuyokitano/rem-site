@@ -14,7 +14,7 @@ export function SettingCategory(props:{ guild:Guild, category?:string, setCatego
   if (!category) return <SettingList setCategory={setCategory} />
   return (
     <div className={styles.settingcategory}>
-      
+      <h3 className={styles.settingtitle}>{category}</h3>
     </div>
   )
 }

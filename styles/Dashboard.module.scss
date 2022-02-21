@@ -75,10 +75,16 @@
 		transition: border-radius 200ms ease-in-out;
 	}
 
-	&:hover {
+	&:hover,
+  &.activeguild {
 		.guildicon {
 			border-radius: 30%;
 		}
+
+    &:before {
+      transform: scaleX(1);
+      transition: transform 50ms ease-in;
+    }
 	}
 
 	&[data-remismember="false"] {
@@ -99,13 +105,6 @@
     transform: scaleX(0);
     transition: transform 50ms ease-out 50ms;
   }
-
-  &:hover {
-    &:before {
-      transform: scaleX(1);
-      transition: transform 50ms ease-in;
-    }
-  }
 }
 
 .labelsidebar {
@@ -117,6 +116,12 @@
   overflow: visible;
   width: 1px;
   height: 1px;
+
+  @media (hover: none) {
+    & {
+      display: none;
+    }
+  }
 
   .guildlabel {
     transform-origin: left;
@@ -187,6 +192,36 @@
       font-size: 1.5rem;
       font-weight: bold;
       margin-bottom: 0.75rem;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .settinglist {
+    .settinglistitem {
+      padding: 1rem 0;
+    }
+  }
+}
+
+.settingcategory {
+
+  padding-left: 1rem;
+
+  .settingtitle {
+    font-size: 2.5rem;
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .settingcategory {
+    padding-left: 0;
+
+    .settingtitle {
+      font-size: 2rem;
+      margin-top: 0.5rem;
     }
   }
 }

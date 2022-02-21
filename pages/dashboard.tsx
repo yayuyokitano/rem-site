@@ -68,6 +68,7 @@ const Home: NextPage = () => {
 
       <Sidebar
         guilds={guilds}
+        activeGuild={activeGuild}
         setActiveLabel={setActiveLabel}
         setActiveGuild={setActiveGuild}
         setSidebarScroll={setSidebarScroll}
@@ -89,15 +90,16 @@ const Home: NextPage = () => {
 
 }
 
-function Sidebar(props: { guilds:Guilds | undefined, setActiveLabel:Dispatch<SetStateAction<Guild | undefined>>, setActiveGuild:Dispatch<SetStateAction<Guild | undefined>>, setSidebarScroll:Dispatch<SetStateAction<number | undefined>>}) {
+function Sidebar(props: { guilds:Guilds | undefined, activeGuild?:Guild, setActiveLabel:Dispatch<SetStateAction<Guild | undefined>>, setActiveGuild:Dispatch<SetStateAction<Guild | undefined>>, setSidebarScroll:Dispatch<SetStateAction<number | undefined>>}) {
   
   const ref = useRef<HTMLElement>(null);
-  const {setSidebarScroll, guilds, setActiveLabel, setActiveGuild} = props;
+  const {setSidebarScroll, guilds, activeGuild, setActiveLabel, setActiveGuild} = props;
   
   return (
     <nav className={styles.sidebar} ref={ref} onScroll={() => setSidebarScroll(ref?.current?.scrollTop ?? 0)}>
       <GuildList
         guilds={guilds}
+        activeGuild={activeGuild}
         setActiveLabel={setActiveLabel}
         setActiveGuild={setActiveGuild}
       />
@@ -140,8 +142,8 @@ function GuildLabel(props: { guild:Guild, active:boolean }) {
   );
 }
 
-function GuildList(props: { guilds:Guilds | undefined, setActiveLabel:Dispatch<SetStateAction<Guild | undefined>>, setActiveGuild:Dispatch<SetStateAction<Guild | undefined>>}) {
-	const { guilds, setActiveLabel, setActiveGuild } = props;
+function GuildList(props: { guilds?:Guilds, activeGuild?:Guild, setActiveLabel:Dispatch<SetStateAction<Guild | undefined>>, setActiveGuild:Dispatch<SetStateAction<Guild | undefined>>}) {
+	const { guilds, activeGuild, setActiveLabel, setActiveGuild } = props;
 	if (guilds === undefined) return <div></div>;
 	return (
 		<ul className={styles.guildlist}>
@@ -151,7 +153,7 @@ function GuildList(props: { guilds:Guilds | undefined, setActiveLabel:Dispatch<S
 						onMouseEnter={() => setActiveLabel(guild)}
             onMouseLeave={() => setActiveLabel(void 0)}
             onClick={() => setActiveGuild(guild)}
-						className={styles.guild}
+						className={`${styles.guild}${activeGuild?.guild.id === guild.guild.id ? ` ${styles.activeguild}` : ""}`}
 						data-guildname={guild.guild.name}
 						data-remismember={guild.remIsMember}
 					>
