@@ -79,7 +79,6 @@ const Home: NextPage = () => {
           sidebarScroll={sidebarScroll}
         />
         <main>
-          <h2 className={styles.guildname}>{activeGuild?.guild.name}</h2>
           <GuildSettings guild={activeGuild} />
         </main>
 			</div>
@@ -92,13 +91,14 @@ const Home: NextPage = () => {
 function Sidebar(props: { guilds:Guilds | undefined, setActiveLabel:Dispatch<SetStateAction<Guild | undefined>>, setActiveGuild:Dispatch<SetStateAction<Guild | undefined>>, setSidebarScroll:Dispatch<SetStateAction<number | undefined>>}) {
   
   const ref = useRef<HTMLElement>(null);
+  const {setSidebarScroll, guilds, setActiveLabel, setActiveGuild} = props;
   
   return (
-    <nav className={styles.sidebar} ref={ref} onScroll={() => props.setSidebarScroll(ref?.current?.scrollTop ?? 0)}>
+    <nav className={styles.sidebar} ref={ref} onScroll={() => setSidebarScroll(ref?.current?.scrollTop ?? 0)}>
       <GuildList
-        guilds={props.guilds}
-        setActiveLabel={props.setActiveLabel}
-        setActiveGuild={props.setActiveGuild}
+        guilds={guilds}
+        setActiveLabel={setActiveLabel}
+        setActiveGuild={setActiveGuild}
       />
     </nav>
   )
@@ -110,10 +110,10 @@ function GuildLabels(props: {
 	activeLabel?: Guild;
   sidebarScroll?: number;
 }) {
-	const {className, activeLabel, guilds} = props;
+	const {className, activeLabel, guilds, sidebarScroll} = props;
 	
 	return (
-		<ul className={className} style={{top: `${48 - (props?.sidebarScroll ?? 0)}px`}}>
+		<ul className={className} style={{top: `${48 - (sidebarScroll ?? 0)}px`}}>
 			{guilds?.map((guild, i) => {
 				return (
 					<GuildLabel
@@ -129,26 +129,27 @@ function GuildLabels(props: {
 }
 
 function GuildLabel(props: { guild:Guild, active:boolean }) {
+  const {active, guild} = props;
 	return (
     <li className={`${styles.guildlabel}
-      ${props.active ? ` ${styles.activelabel}` : ""}
-      ${props.guild.remIsMember ? "" : ` ${styles.nonmemberlabel}`}`}>
-      {props.guild.guild.name}
+      ${active ? ` ${styles.activelabel}` : ""}
+      ${guild.remIsMember ? "" : ` ${styles.nonmemberlabel}`}`}>
+      {guild.guild.name}
     </li>
   );
 }
 
 function GuildList(props: { guilds:Guilds | undefined, setActiveLabel:Dispatch<SetStateAction<Guild | undefined>>, setActiveGuild:Dispatch<SetStateAction<Guild | undefined>>}) {
-	const { guilds } = props;
+	const { guilds, setActiveLabel, setActiveGuild } = props;
 	if (guilds === undefined) return <div></div>;
 	return (
 		<ul className={styles.guildlist}>
 			{guilds.map((guild, index) => {
 				return (
 					<li key={index}
-						onMouseEnter={() => props.setActiveLabel(guild)}
-            onMouseLeave={() => props.setActiveLabel(void 0)}
-            onClick={() => props.setActiveGuild(guild)}
+						onMouseEnter={() => setActiveLabel(guild)}
+            onMouseLeave={() => setActiveLabel(void 0)}
+            onClick={() => setActiveGuild(guild)}
 						className={styles.guild}
 						data-guildname={guild.guild.name}
 						data-remismember={guild.remIsMember}
@@ -167,14 +168,22 @@ function GuildList(props: { guilds:Guilds | undefined, setActiveLabel:Dispatch<S
 }
 
 function GuildSettings(props:{guild?:Guild}) {
-  if (!props?.guild?.remIsMember) return <InvitePrompt />
-  return <div></div>
-}
-
-function InvitePrompt() {
+  const {guild} = props;
+  if (typeof guild === "undefined") return <div><h3>Please select a server from the sidebar.</h3><p>You need administrator permission in a server for it to show up.</p></div>;
+  if (!guild?.remIsMember) return <InvitePrompt guild={guild} />;
   return (
     <div>
-      <h3>Rem is not in this server!</h3>
+      <h2 className={styles.guildname}>{guild?.guild.name}</h2>
+      <p>Settings</p>
+    </div>
+  );
+}
+
+function InvitePrompt(props:{guild?:Guild}) {
+  const {guild} = props;
+  return (
+    <div>
+      <h3>Rem is not in {guild?.guild.name}!</h3>
       <a href="https://discord.com/oauth2/authorize?client_id=541298511430287395&permissions=0&scope=bot" target="_blank">
         <button type="button" className={styles.invitebutton}>＋ Invite to server</button>
       </a>
