@@ -44,7 +44,7 @@ const Home: NextPage = () => {
 		});
 	}, []);
 
-	if(isLoading) return <div></div>;
+	if(isLoading) return <div className={styles.loadingwrapper}><h1 className={styles.loading}>Loading Dashboard</h1></div>;
 
 	return (
 		<div className={styles.container}>
