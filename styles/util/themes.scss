@@ -2,14 +2,24 @@
 	--background: white;
 	--background2: #e7ddee;
 	--foreground: black;
+
 	--accent1: #4c018d;
-	--accentdesaturated: #4a2569;
+  --accent1complement: #428D01;
+  --darkaccent1: #c88afe;
+  --darkaccent1complement: #C0FE8A;
+
+  --accentdesaturated: #4a2569;
 }
 
 [data-theme="dark"] {
 	--background: black;
 	--background2: #39006a;
 	--foreground: white;
+
 	--accent1: #c88afe;
+  --accent1complement: #C0FE8A;
+  --darkaccent1: #c88afe;
+  --darkaccent1complement: #C0FE8A;
+
 	--accentdesaturated: #e7ddee;
 }

@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import { useTheme } from "next-themes";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { getCurrentUserStrict, removeUserData } from "../helpers/util/discordAuth";
 import { getGuildList, Guild, Guilds, iconURL } from "../helpers/util/discordUtil";
@@ -79,7 +80,7 @@ const Home: NextPage = () => {
         />
         <main>
           <h2 className={styles.guildname}>{activeGuild?.guild.name}</h2>
-          <p>hello</p>
+          <GuildSettings guild={activeGuild} />
         </main>
 			</div>
 		</div>
@@ -163,6 +164,22 @@ function GuildList(props: { guilds:Guilds | undefined, setActiveLabel:Dispatch<S
 			})}
 		</ul>
 	);
+}
+
+function GuildSettings(props:{guild?:Guild}) {
+  if (!props?.guild?.remIsMember) return <InvitePrompt />
+  return <div></div>
+}
+
+function InvitePrompt() {
+  return (
+    <div>
+      <h3>Rem is not in this server!</h3>
+      <a href="https://discord.com/oauth2/authorize?client_id=541298511430287395&permissions=0&scope=bot" target="_blank">
+        <button type="button" className={styles.invitebutton}>＋ Invite to server</button>
+      </a>
+    </div>
+  )
 }
 
 export default Home;

@@ -155,13 +155,26 @@
 
 .main {
 	margin-top: 64px;
-	margin-left: 64px;
+	margin-left: 70px;
 	max-height: calc(100vh - 64px);
 	color: var(--foreground);
 	overflow-y: auto;
 }
 
-.guildname {
-  margin-top: 0;
-  margin-bottom: 100vh;
+.invitebutton {
+  background: linear-gradient(135deg, var(--darkaccent1complement), var(--darkaccent1));
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: calc(100% + 300px) calc(100% + 150px);
+  transition: background-position 600ms ease-in-out;
+  color: #000;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+
+  &:hover {
+    background-position: -200px -100px;
+  }
 }
