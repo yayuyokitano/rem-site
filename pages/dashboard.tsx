@@ -2,12 +2,13 @@ import type { NextPage } from "next";
 import { useTheme } from "next-themes";
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { getCurrentUserStrict, removeUserData } from "../helpers/util/discordAuth";
 import { getGuildList, Guild, Guilds, iconURL } from "../helpers/util/discordUtil";
 import { ThemeChanger } from "../helpers/util/themechanger";
 import styles from "../styles/Dashboard.module.scss";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { SettingCategory } from "../helpers/settingcategory";
 
 type IndexState = {
 	type: "unauthorized";
@@ -79,7 +80,7 @@ const Home: NextPage = () => {
           sidebarScroll={sidebarScroll}
         />
         <main>
-          <GuildSettings guild={activeGuild} />
+          <GuildSettings guild={activeGuild} setGuild={setActiveGuild} />
         </main>
 			</div>
 		</div>
@@ -167,14 +168,35 @@ function GuildList(props: { guilds:Guilds | undefined, setActiveLabel:Dispatch<S
 	);
 }
 
-function GuildSettings(props:{guild?:Guild}) {
-  const {guild} = props;
+function settingNavBack(setCategory:Dispatch<SetStateAction<string | undefined>>, guild?:Guild, category?:string) {
+
+  if (category) {
+    setCategory("");
+    return guild;
+  }
+
+  return void 0;
+
+}
+
+function GuildSettings(props:{guild?:Guild, setGuild:Dispatch<SetStateAction<Guild | undefined>>}) {
+  let {guild, setGuild} = props;
+  const [category, setCategory] = useState<string>();
+
   if (typeof guild === "undefined") return <div><h3>Please select a server from the sidebar.</h3><p>You need administrator permission in a server for it to show up.</p></div>;
-  if (!guild?.remIsMember) return <InvitePrompt guild={guild} />;
   return (
-    <div>
-      <h2 className={styles.guildname}>{guild?.guild.name}</h2>
-      <p>Settings</p>
+    <div className={styles.settings}>
+      <header className={styles.settingsheader}>
+        <button type="button" className={styles.navback} onClick={() => { setGuild(settingNavBack(setCategory, guild, category))}} >
+          <ArrowBackIcon className={styles.arrowback} />
+        </button>
+        <h2 className={styles.guildname}>{guild?.guild.name}</h2>
+      </header>
+      { // show invite prompt if REM is not in server, otherwise show settings.
+        guild?.remIsMember ?
+        <SettingCategory guild={guild} category={category} setCategory={setCategory} /> :
+        <InvitePrompt guild={guild} />
+      }
     </div>
   );
 }
@@ -182,7 +204,7 @@ function GuildSettings(props:{guild?:Guild}) {
 function InvitePrompt(props:{guild?:Guild}) {
   const {guild} = props;
   return (
-    <div>
+    <div className={styles.inviteprompt}>
       <h3>Rem is not in {guild?.guild.name}!</h3>
       <a href="https://discord.com/oauth2/authorize?client_id=541298511430287395&permissions=0&scope=bot" target="_blank">
         <button type="button" className={styles.invitebutton}>＋ Invite to server</button>

@@ -10,17 +10,21 @@
   font-size: 4rem;
 }
 
-.header {
+.header,
+.settingsheader {
 	position: fixed;
 	width: 100%;
-	top: 0;
 	display: flex;
 	align-items: center;
 	vertical-align: middle;
 	justify-content: flex-start;
 	padding-right: 0 1.5rem;
-	height: 64px;
   z-index: 10;
+}
+
+.header {
+	top: 0;
+  height: 64px;
   background-color: var(--background);
 }
 
@@ -36,30 +40,7 @@
 	}
 }
 
-.login,
-.user {
-	padding: 1rem;
-}
-
-.user {
-	display: flex;
-	align-items: center;
-	cursor: pointer;
-	border-radius: 0 0 0 32px;
-
-	&:hover {
-		background-color: var(--background2);
-	}
-}
-
-.avatar,
-.profileimage {
-	border-radius: 50%;
-}
-
-.username {
-	margin-left: 0.5rem;
-}
+//start sidebar
 
 .sidebar {
 	top: 64px;
@@ -165,8 +146,55 @@
   }
 }
 
+//start settings header
+
+.settingsheader {
+  top: 64px;
+
+  .navback {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding-right: 1rem;
+    padding-top: 6px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .guildname {
+    margin: 0;
+  }
+}
+
+//start settings content
+
+.settinglist {
+  margin: 0;
+  padding: 0;
+
+  .settinglistitem {
+    padding: 2rem 1rem;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--background2);
+    }
+
+    .settingname {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 0.75rem;
+    }
+  }
+}
+
+//start main
+
 .main {
-	margin-top: 64px;
+	margin-top: 112px;
 	margin-left: 70px;
 	max-height: calc(100vh - 64px);
 	color: var(--foreground);
