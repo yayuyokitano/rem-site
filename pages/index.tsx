@@ -89,7 +89,7 @@ function UserDisplay(props:{
 			</Link>
 		)
 	}
-	return <a className={styles.login} href={`https://discord.com/api/oauth2/authorize?client_id=541298511430287395&redirect_uri=https%3A%2F%2Frem.fm%2Fauthorization&response_type=code&scope=identify%20guilds&state=${props?.userData?.state}`}>login</a>
+	return <a className={styles.login} href={`https://discord.com/api/oauth2/authorize?client_id=541298511430287395&redirect_uri=https%3A%2F%2Frem.fm%2Fauthorization&response_type=code&scope=guilds.members.read%20identify%20guilds&state=${props?.userData?.state}`}>login</a>
 }
 
 export default Home
