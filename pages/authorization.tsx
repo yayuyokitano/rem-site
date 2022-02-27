@@ -111,9 +111,11 @@ type GuildDetails = {
 async function authorize(search:string, setGuild:Dispatch<SetStateAction<boolean>>, isGuild:boolean) {
 	const { code, guildID, success } = checkState(search);
   setGuild(typeof guildID !== "undefined");
+  console.log("hallo", isGuild, guildID)
 	if (!isGuild && !success) {
 		return false;
 	}
+  console.log("hallo2", isGuild, guildID)
   
 	const res = await fetch(`${config.remBackendURL}/authorize-${isGuild ? "guild" : "user"}`, {
 		method: "POST",
@@ -142,7 +144,7 @@ function checkState(search:string) {
 	const args = new URLSearchParams(search);
 	return {
 		code: args.get("code"),
-    guildID: args.get("guildID"),
+    guildID: args.get("guild_id"),
 		success: localStorage.getItem("oauth-state") === args.get("state")
 	}
 }
