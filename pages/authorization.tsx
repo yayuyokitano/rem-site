@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styles from "../styles/Auth.module.scss";
 import * as config from "../helpers/config";
 import Link from "next/link";
@@ -10,8 +10,9 @@ const Auth: NextPage = () => {
 
 	const [didFetchToken, setDidFetchToken] = useState<boolean>();
 	const [isLoading, setLoading] = useState(true);
+  const [isGuild, setGuild] = useState(false);
 	useEffect(() => {
-		authorize(window.location.search).then(wasSuccessful => {
+		authorize(window.location.search, setGuild, isGuild).then(wasSuccessful => {
 			setDidFetchToken(wasSuccessful);
 			setLoading(false);
 			setTimeout(() => {
@@ -26,17 +27,19 @@ const Auth: NextPage = () => {
 	if(isLoading) return <AwaitingBody />;
 
 	return (
-		<AuthBody success={didFetchToken} />
+		<AuthBody success={didFetchToken} isGuild={isGuild} />
 	);
 }
 
 const AuthBody = (props:{
-	success:boolean | undefined
+	success:boolean | undefined;
+  isGuild:boolean
 }) => {
-	if (props?.success) {
-		return SuccessBody();
+  const {success, isGuild} = props;
+	if (success) {
+		return <SuccessBody />;
 	} else {
-		return FailBody();
+		return <FailBody isGuild={isGuild} />;
 	}
 }
 
@@ -72,7 +75,8 @@ const SuccessBody = () => {
 	);
 }
 
-const FailBody = () => {
+const FailBody = (props:{isGuild:boolean}) => {
+  const {isGuild} = props;
 	return (
 		<div className={styles.container}>
 			<Head>
@@ -83,8 +87,8 @@ const FailBody = () => {
 			<main className={styles.main}>
 				<h1 className={styles.title}>Authorization failed.</h1>
 				<p>Please try again.</p>
-				<Link href={"/"}>
-					<a>Click here to return to the homepage</a>
+				<Link href={isGuild ? "/dashboard" : "/"}>
+					<a>Click here to return to the {isGuild ? "dashboard" : "homepage"}</a>
 				</Link>
 			</main>
 		</div>
@@ -104,12 +108,13 @@ type GuildDetails = {
 }
 
 
-async function authorize(search:string) {
+async function authorize(search:string, setGuild:Dispatch<SetStateAction<boolean>>, isGuild:boolean) {
 	const { code, guildID, success } = checkState(search);
+  setGuild(typeof guildID !== "undefined");
 	if (!success) {
 		return false
 	}
-	const res = await fetch(`${config.remBackendURL}/authorize-${typeof guildID === "undefined" ? "user" : "guild"}`, {
+	const res = await fetch(`${config.remBackendURL}/authorize-${isGuild ? "guild" : "user"}`, {
 		method: "POST",
 		body: JSON.stringify({
 			code
@@ -118,7 +123,7 @@ async function authorize(search:string) {
 	if (!res.ok) {
 		return false;
 	}
-  if (typeof guildID !== "undefined") {
+  if (isGuild) {
     const guildDetails:GuildDetails = await res.json();
     return guildID === guildDetails.guildID;
   }
