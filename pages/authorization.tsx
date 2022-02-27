@@ -111,7 +111,7 @@ type GuildDetails = {
 async function authorize(search:string, setGuild:Dispatch<SetStateAction<boolean>>, isGuild:boolean) {
 	const { code, guildID, success } = checkState(search);
   setGuild(typeof guildID !== "undefined");
-	if (!success) {
+	if (!isGuild && !success) {
 		return false
 	}
 	const res = await fetch(`${config.remBackendURL}/authorize-${isGuild ? "guild" : "user"}`, {
