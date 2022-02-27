@@ -113,9 +113,7 @@ type GuildDetails = {
 
 
 async function authorize(search:string, setGuild:Dispatch<SetStateAction<boolean>>) {
-	const args = checkState(search);
-  const { code, guildID, success } = args;
-  console.log(args);
+	const { code, guildID, success } = checkState(search);
 	const isGuild = typeof guildID !== "undefined";
 
 	setGuild(isGuild);
