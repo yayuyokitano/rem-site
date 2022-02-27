@@ -5,6 +5,7 @@ import styles from "../styles/Auth.module.scss";
 import * as config from "../helpers/config";
 import Link from "next/link";
 import Router from "next/router";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 const Auth: NextPage = () => {
 
@@ -112,7 +113,9 @@ type GuildDetails = {
 
 
 async function authorize(search:string, setGuild:Dispatch<SetStateAction<boolean>>) {
-	const { code, guildID, success } = checkState(search);
+	const args = checkState(search);
+  const { code, guildID, success } = args;
+  console.log(args);
 	const isGuild = typeof guildID !== "undefined";
 
 	setGuild(isGuild);

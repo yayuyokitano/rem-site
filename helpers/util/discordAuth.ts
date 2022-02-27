@@ -65,7 +65,7 @@ export function removeUserData() {
 	}
 }
 
-function getNewState() {
+export function getNewState() {
 	const state = generateRandomString();
 	localStorage.setItem("oauth-state", state);
 	return state;

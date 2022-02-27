@@ -3,7 +3,7 @@ import { useTheme } from "next-themes";
 import Head from "next/head";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import { getCurrentUserStrict, removeUserData } from "../helpers/util/discordAuth";
+import { getCurrentUserStrict, getNewState, removeUserData } from "../helpers/util/discordAuth";
 import { getGuildList, Guild, Guilds, iconURL } from "../helpers/util/discordUtil";
 import { ThemeChanger } from "../helpers/util/themechanger";
 import styles from "../styles/Dashboard.module.scss";
@@ -208,7 +208,7 @@ function InvitePrompt(props:{guild?:Guild}) {
 	return (
 		<div className={styles.inviteprompt}>
 			<h3>Rem is not in {guild?.guild.name}!</h3>
-			<a href={`https://discord.com/api/oauth2/authorize?client_id=541298511430287395&permissions=0&scope=bot%20applications.commands&response_type=code&guild_id=${guild?.guild.id}&disable_guild_select=true`} target="_blank" rel="noreferrer">
+			<a href={`https://discord.com/api/oauth2/authorize?client_id=541298511430287395&permissions=0&scope=bot%20applications.commands&response_type=code&guild_id=${guild?.guild.id}&disable_guild_select=true?state=${getNewState()}`} target="_blank" rel="noreferrer">
 				<button type="button" className={styles.invitebutton}>＋ Invite to server</button>
 			</a>
 		</div>
