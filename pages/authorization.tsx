@@ -12,7 +12,7 @@ const Auth: NextPage = () => {
 	const [isLoading, setLoading] = useState(true);
   const [isGuild, setGuild] = useState(false);
 	useEffect(() => {
-		authorize(window.location.search, setGuild, isGuild).then(wasSuccessful => {
+		authorize(window.location.search, setGuild).then(wasSuccessful => {
 			setDidFetchToken(wasSuccessful);
 			setLoading(false);
 			setTimeout(() => {
@@ -108,9 +108,10 @@ type GuildDetails = {
 }
 
 
-async function authorize(search:string, setGuild:Dispatch<SetStateAction<boolean>>, isGuild:boolean) {
+async function authorize(search:string, setGuild:Dispatch<SetStateAction<boolean>>) {
 	const { code, guildID, success } = checkState(search);
-  setGuild(typeof guildID !== "undefined");
+  const isGuild = typeof guildID !== "undefined"
+  setGuild(isGuild);
   console.log("hallo", isGuild, guildID)
 	if (!isGuild && !success) {
 		return false;
