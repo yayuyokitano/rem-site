@@ -11,7 +11,7 @@ const Auth: NextPage = () => {
 	const [didFetchToken, setDidFetchToken] = useState<boolean>();
 	const [isLoading, setLoading] = useState(true);
 	useEffect(() => {
-		authorizeUser(window.location.search).then(wasSuccessful => {
+		authorize(window.location.search).then(wasSuccessful => {
 			setDidFetchToken(wasSuccessful);
 			setLoading(false);
 			setTimeout(() => {
@@ -99,21 +99,29 @@ type UserDetails = {
 	token: number;
 }
 
+type GuildDetails = {
+	guildID: string;
+}
 
-async function authorizeUser(search:string) {
-	const { code, success } = checkState(search);
+
+async function authorize(search:string) {
+	const { code, guildID, success } = checkState(search);
 	if (!success) {
 		return false
 	}
-	const res = await fetch(`${config.remBackendURL}/authorize-discord`, {
+	const res = await fetch(`${config.remBackendURL}/authorize-${typeof guildID === "undefined" ? "user" : "guild"}`, {
 		method: "POST",
 		body: JSON.stringify({
 			code
 		})
 	});
 	if (!res.ok) {
-		return false
+		return false;
 	}
+  if (typeof guildID !== "undefined") {
+    const guildDetails:GuildDetails = await res.json();
+    return guildID === guildDetails.guildID;
+  }
 	const userDetails:UserDetails = await res.json();
 	localStorage.setItem("userID", userDetails.userID);
 	localStorage.setItem("username", userDetails.username);
@@ -128,6 +136,7 @@ function checkState(search:string) {
 	const args = new URLSearchParams(search);
 	return {
 		code: args.get("code"),
+    guildID: args.get("guild_id"),
 		success: localStorage.getItem("oauth-state") === args.get("state")
 	}
 }
