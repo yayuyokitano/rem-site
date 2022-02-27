@@ -10,13 +10,13 @@ const Auth: NextPage = () => {
 
 	const [didFetchToken, setDidFetchToken] = useState<boolean>();
 	const [isLoading, setLoading] = useState(true);
-  const [isGuild, setGuild] = useState(false);
+	const [isGuild, setGuild] = useState(false);
 	useEffect(() => {
 		authorize(window.location.search, setGuild).then(wasSuccessful => {
 			setDidFetchToken(wasSuccessful);
 			setLoading(false);
 			setTimeout(() => {
-				Router.push("/");
+				Router.push(isGuild ? "/dashboard" : "/");
 			}, 1500)
 		}).catch(() => {
 			setDidFetchToken(false);
@@ -33,9 +33,9 @@ const Auth: NextPage = () => {
 
 const AuthBody = (props:{
 	success:boolean | undefined;
-  isGuild:boolean
+	isGuild:boolean
 }) => {
-  const {success, isGuild} = props;
+	const {success, isGuild} = props;
 	if (success) {
 		return <SuccessBody />;
 	} else {
@@ -76,7 +76,7 @@ const SuccessBody = () => {
 }
 
 const FailBody = (props:{isGuild:boolean}) => {
-  const {isGuild} = props;
+	const {isGuild} = props;
 	return (
 		<div className={styles.container}>
 			<Head>
@@ -110,14 +110,13 @@ type GuildDetails = {
 
 async function authorize(search:string, setGuild:Dispatch<SetStateAction<boolean>>) {
 	const { code, guildID, success } = checkState(search);
-  const isGuild = typeof guildID !== "undefined"
-  setGuild(isGuild);
-  console.log("hallo", isGuild, guildID)
+	const isGuild = typeof guildID !== "undefined";
+
+	setGuild(isGuild);
 	if (!isGuild && !success) {
 		return false;
 	}
-  console.log("hallo2", isGuild, guildID)
-  
+	
 	const res = await fetch(`${config.remBackendURL}/authorize-${isGuild ? "guild" : "user"}`, {
 		method: "POST",
 		body: JSON.stringify({
@@ -127,17 +126,17 @@ async function authorize(search:string, setGuild:Dispatch<SetStateAction<boolean
 	if (!res.ok) {
 		return false;
 	}
-  if (isGuild) {
-    const guildDetails:GuildDetails = await res.json();
-    return guildID === guildDetails.guildID;
-  }
+	if (isGuild) {
+		const guildDetails:GuildDetails = await res.json();
+		return guildID === guildDetails.guildID;
+	}
 	const userDetails:UserDetails = await res.json();
 	localStorage.setItem("userID", userDetails.userID);
 	localStorage.setItem("username", userDetails.username);
 	localStorage.setItem("discriminator", userDetails.discriminator);
 	localStorage.setItem("avatar", userDetails.avatar);
 	localStorage.setItem("token", userDetails.token.toString());
-	return true
+	return true;
 	
 }
 
@@ -145,7 +144,7 @@ function checkState(search:string) {
 	const args = new URLSearchParams(search);
 	return {
 		code: args.get("code"),
-    guildID: args.get("guild_id"),
+		guildID: args.get("guild_id"),
 		success: localStorage.getItem("oauth-state") === args.get("state")
 	}
 }
