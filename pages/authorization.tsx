@@ -12,17 +12,20 @@ const Auth: NextPage = () => {
 	const [isLoading, setLoading] = useState(true);
 	const [isGuild, setGuild] = useState(false);
 	useEffect(() => {
-		authorize(window.location.search, setGuild).then(wasSuccessful => {
-			setDidFetchToken(wasSuccessful);
-			setLoading(false);
+		if (isLoading) {
+			authorize(window.location.search, setGuild).then(wasSuccessful => {
+				setDidFetchToken(wasSuccessful);
+				setLoading(false);
+			}).catch(() => {
+				setDidFetchToken(false);
+				setLoading(false);
+			});
+		} else {
 			setTimeout(() => {
 				Router.push(isGuild ? "/dashboard" : "/");
-			}, 1500)
-		}).catch(() => {
-			setDidFetchToken(false);
-			setLoading(false);
-		});
-	}, []);
+			}, 1500);
+		}
+	}, [isGuild]);
 
 	if(isLoading) return <AwaitingBody />;
 
