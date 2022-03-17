@@ -70,22 +70,41 @@ function CommandElement(props:{ guildID:string, command:Command }) {
 	)
 }
 
+async function getActiveSubcommands(guildID:string, commandName:string) {
+  const userID = localStorage.getItem("userID");
+  const token = localStorage.getItem("token");
+  const response = await fetch(`${remBackendURL}/interaction?guildid=${guildID}&name=${commandName}&userid=${userID}&token=${token}`);
+  const subcommands = await response.json();
+  return subcommands as string[];
+}
+
 function Subcommands(props:{ guildID:string, command:Command }) {
 	const { guildID, command } = props;
+  const [activeSubcommands, setActiveSubCommands] = useState<string[]>([]);
+  const [isLoading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    (async() => {
+      const subcommands = await getActiveSubcommands(guildID, command.name);
+      setActiveSubCommands(subcommands);
+      setLoading(false);
+    })()
+  }, [setActiveSubCommands, guildID, command.name]);
+
 	if (command.subcommands.length === 0) return <></>;
 	return (
 		<ul className={styles.subcommandlist}>{
 			command.subcommands.map((subcommand, index) => {
 				return (
-					<li key={index} className={styles.subcommand}><SubcommandElement guildID={guildID} command={command} subcommand={subcommand} /></li>
+					<li key={index} className={styles.subcommand}><SubcommandElement guildID={guildID} command={command} subcommand={subcommand} isActive={activeSubcommands.includes(subcommand.name)} isLoading={isLoading} /></li>
 				)
 			})
 		}</ul>
 	)
 }
 
-function SubcommandElement(props:{ guildID:string, command:Command, subcommand:Subcommand }) {
-	const { guildID, command, subcommand } = props;
+function SubcommandElement(props:{ guildID:string, command:Command, subcommand:Subcommand, isActive:boolean, isLoading:boolean }) {
+	const { guildID, command, subcommand, isActive, isLoading } = props;
 	return (
     <label htmlFor={`${command.name}-${subcommand.name}`}>
 		  <div className={styles.subcommandcontainer}>
@@ -94,7 +113,9 @@ function SubcommandElement(props:{ guildID:string, command:Command, subcommand:S
           <p className={styles.subcommanddescription}>{subcommand.description}</p>
           <p>Parent command: {command.name}</p>
         </div>
-        <SubcommandToggle guildID={guildID} command={command} subcommand={subcommand} />
+        { isLoading ?
+          <span className={styles.toggleplaceholder}>...</span> :
+          <SubcommandToggle guildID={guildID} command={command} subcommand={subcommand} isActive={isActive} /> }
 		  </div>
     </label>
 	)
@@ -119,10 +140,10 @@ async function updateCommand(guildID:string, commandName:string) {
   })
 }
 
-function SubcommandToggle(props:{ guildID:string, command:Command, subcommand:Subcommand }) {
-	const { guildID, command, subcommand } = props;
+function SubcommandToggle(props:{ guildID:string, command:Command, subcommand:Subcommand, isActive:boolean }) {
+	const { guildID, command, subcommand, isActive } = props;
 	return (
-		<input type="checkbox" className={styles.subcommandtoggle} data-command={command.name} data-subcommand={subcommand.name} onChange={()=> {updateCommand(guildID, command.name)}} id={`${command.name}-${subcommand.name}`} />
+		<input type="checkbox" className={styles.subcommandtoggle} data-command={command.name} data-subcommand={subcommand.name} onChange={()=> {updateCommand(guildID, command.name)}} id={`${command.name}-${subcommand.name}`} checked={isActive} />
 	)
 }
 
