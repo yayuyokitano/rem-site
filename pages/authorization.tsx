@@ -26,7 +26,7 @@ const Auth: NextPage = () => {
 				Router.push(isGuild ? "/dashboard" : "/");
 			}, 1500);
 		}
-	}, [isLoading]);
+	}, [isLoading, isGuild]);
 
 	if(isLoading) return <AwaitingBody />;
 

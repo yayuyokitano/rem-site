@@ -1,7 +1,11 @@
 :root {
 	--background: white;
 	--background2: #e7ddee;
+  --background3: #c88afe;
 	--foreground: black;
+
+  --success: #e4eedd;
+  --error: #eedde4;
 
 	--accent1: #4c018d;
   --accent1complement: #428D01;
@@ -14,7 +18,11 @@
 [data-theme="dark"] {
 	--background: black;
 	--background2: #39006a;
+  --background3: #4c018d;
 	--foreground: white;
+
+  --success: #316a00;
+  --error: #6a0031;
 
 	--accent1: #c88afe;
   --accent1complement: #C0FE8A;

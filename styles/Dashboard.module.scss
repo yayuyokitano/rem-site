@@ -226,6 +226,111 @@
   }
 }
 
+.command,
+.subcommand {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  line-height: 0.75;
+}
+
+.subcommand {
+  padding-top: 0.75rem;
+}
+
+.commandlist,
+.subcommandlist {
+  padding-left: 0;
+}
+
+.subcommandcontainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--background2);
+  }
+  
+  * {
+    cursor: pointer;
+  }
+
+  input {
+    position: relative;
+    background: white;
+    width: 4rem;
+    height: 2rem;
+    border-radius: 1rem;
+    -webkit-appearance: initial;
+    border: 1px solid var(--accent1);
+    background-color: var(--background);
+    transition: background-color 200ms ease-in;
+    margin-right: 1rem;
+    
+    &::after {
+      position: absolute;
+      top: 0.04rem;
+      width: 1.8rem;
+      height: 1.8rem;
+      border-radius: 50%;
+      background: #FFF;
+      box-sizing: border-box;
+      text-align: center;
+      transition: left 200ms ease-in;
+      color: black;
+      border: #888 1px solid;
+    }
+    
+    &::after {
+      left: 2%;
+      content:"";
+    }
+
+    &:checked {
+      background-color: var(--background2);
+    }
+    
+    &:checked::after {
+      left: 52%;
+      content:"";
+    }
+  }
+}
+
+.buttonlist {
+  list-style: none;
+  padding: 0;
+  margin-top: 5rem;
+}
+
+.button {
+  border: none;
+  background-color: var(--background2);
+  padding: 0.75rem 1.5rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--background3);
+  }
+}
+
+.buttonsuccess {
+  background-color: var(--success);
+}
+
+.buttonerror {
+  background-color: var(--error);
+}
+
+.buttonmessage {
+  padding: 1rem;
+  margin-top: 0;
+}
+
+
 //start main
 
 .main {

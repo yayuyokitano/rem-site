@@ -1,5 +1,6 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styles from "../styles/Dashboard.module.scss";
+import { importMee6 } from "./settings/levels";
 import { Guild } from "./util/discordUtil";
 
 
@@ -9,10 +10,10 @@ export function SettingCategory(props:{ guild:Guild, category?:string, setCatego
 
 	useEffect(() => {
 		setCategory("");
-	}, [guild])
+	}, [guild, setCategory])
 
 	if (!category) return <SettingList setCategory={setCategory} />
-	return <SettingContent settingDetails={settings[category]}/>
+	return <SettingContent guildID={guild.guild.id} settingDetails={settings[category]}/>
 }
 
 function SettingList(props: {setCategory:Dispatch<SetStateAction<string | undefined>>}) {
@@ -31,12 +32,13 @@ function SettingList(props: {setCategory:Dispatch<SetStateAction<string | undefi
 	)
 }
 
-function SettingContent(props:{settingDetails:SettingObject}) {
-	const {settingDetails} = props;
+function SettingContent(props:{guildID:string, settingDetails:SettingObject}) {
+	const {guildID, settingDetails} = props;
 	return (
 		<div className={styles.settingcategory}>
 			<h3 className={styles.settingtitle}>{settingDetails.name}</h3>
 			<Commands commands={settingDetails.commands}/>
+      <Buttons guildID={guildID} buttons={settingDetails.buttons} />
 		</div>
 	);
 }
@@ -45,7 +47,7 @@ function Commands(props:{commands:Command[]}) {
 	const {commands} = props;
 	if (commands.length === 0) return <></>;
 	return (
-		<ul className={styles.commandList}>{
+		<ul className={styles.commandlist}>{
 			commands.map((command, index) => {
 				return (
 					<li key={index} className={styles.command}><CommandElement command={command} /></li>
@@ -83,12 +85,56 @@ function Subcommands(props:{ command:Command }) {
 function SubcommandElement(props:{ command:Command, subcommand:Subcommand }) {
 	const { command, subcommand } = props;
 	return (
-		<div>
-			<h4 className={styles.subcommandname}>{subcommand.name}</h4>
-			<p className={styles.subcommanddescription}>{subcommand.description}</p>
-			<p>Parent command: {command.name}</p>
-		</div>
+    <label htmlFor={`${command.name}-${subcommand.name}`}>
+		  <div className={styles.subcommandcontainer}>
+        <SubcommandToggle command={command} subcommand={subcommand} />
+        <div className={styles.subcommandcontent}>
+          <h4 className={styles.subcommandname}>{subcommand.name}</h4>
+          <p className={styles.subcommanddescription}>{subcommand.description}</p>
+          <p>Parent command: {command.name}</p>
+        </div>
+		  </div>
+    </label>
 	)
+}
+
+function SubcommandToggle(props:{ command:Command, subcommand:Subcommand }) {
+	const { command, subcommand } = props;
+	return (
+		<input type="checkbox" id={`${command.name}-${subcommand.name}`} />
+	)
+}
+
+function Buttons(props:{ guildID:string, buttons:Button[]|undefined }) {
+  const {guildID, buttons} = props;
+  if (!buttons?.length) return <></>;
+  return (
+    <ul className={styles.buttonlist}>{
+      buttons.map((button, index) => {
+        return (
+          <li key={index}><ButtonElement guildID={guildID} button={button} /></li>
+        )
+      })
+    }</ul>
+  )
+}
+
+function ButtonElement(props:{ guildID:string, button:Button }) {
+  const { guildID, button } = props;
+  let [buttonResponse, setButtonResponse] = useState<ButtonResponse>();
+  return (
+    <div className={styles.buttoncontainer}>
+      <button name={button.name} className={styles.button} onClick={()=>{buttonCaller(guildID, button, setButtonResponse)}}>{button.name}</button>
+      {buttonResponse?.message ? <p className={`${styles.buttonmessage} ${buttonSuccessClass(buttonResponse)}`}>{buttonResponse.message}</p> : <></>}
+      <p className={styles.buttondescription}>{button.description}</p>
+    </div>
+  );
+}
+
+function buttonSuccessClass(buttonResponse:ButtonResponse|undefined) {
+  if (typeof buttonResponse === "undefined") return "";;
+  if (buttonResponse.success) return styles.buttonsuccess;
+  return styles.buttonerror;
 }
 
 const levels:SettingObject = {
@@ -97,13 +143,29 @@ const levels:SettingObject = {
 	commands: [
 		{
 			name: "level",
-			description: "Activate the level command. The base command allows the user to show their own level, or pass another user to show that user's level.",
+			description: "Adds level viewing functionality to the bot.",
 			subcommands: [{
-				name: "leaderboard",
-				description: "Show a leaderboard of user levels on the server."
+				name: "display",
+				description: "Show the level of a specific user."
 			}]
 		}
-	]
+	],
+  buttons: [
+    {
+      name: "import from MEE6",
+      description: "Import levels and role settings from MEE6. This will overwrite any existing levels and role settings. You must make your leaderboard public in the MEE6 leaderboard before importing, or it will fail.",
+      action: importMee6
+    }
+  ]
+}
+
+async function buttonCaller(guildID:string, button:Button, setButtonResponse:Dispatch<SetStateAction<ButtonResponse | undefined>>) {
+  setButtonResponse(await button.action(guildID));
+}
+
+interface ButtonResponse {
+  success: boolean;
+  message: string;
 }
 
 interface Subcommand {
@@ -115,8 +177,14 @@ interface Command extends Subcommand {
 	subcommands:Subcommand[];
 }
 
+interface Button {
+  name:string;
+  description:string;
+  action:(guildID:string) => Promise<ButtonResponse>;
+}
 interface SettingObject extends Subcommand {
 	commands:Command[];
+  buttons?:Button[];
 }
 
 const settings:{[setting:string]:SettingObject} = {
