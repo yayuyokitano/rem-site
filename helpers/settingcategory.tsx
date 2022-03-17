@@ -89,12 +89,12 @@ function SubcommandElement(props:{ guildID:string, command:Command, subcommand:S
 	return (
     <label htmlFor={`${command.name}-${subcommand.name}`}>
 		  <div className={styles.subcommandcontainer}>
-        <SubcommandToggle guildID={guildID} command={command} subcommand={subcommand} />
         <div className={styles.subcommandcontent}>
           <h4 className={styles.subcommandname}>{subcommand.name}</h4>
           <p className={styles.subcommanddescription}>{subcommand.description}</p>
           <p>Parent command: {command.name}</p>
         </div>
+        <SubcommandToggle guildID={guildID} command={command} subcommand={subcommand} />
 		  </div>
     </label>
 	)

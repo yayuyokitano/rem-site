@@ -246,7 +246,9 @@
 .subcommandcontainer {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
+  padding-left: 2rem;
   cursor: pointer;
 
   &:hover {
@@ -260,14 +262,14 @@
   .subcommandtoggle {
     position: relative;
     background: white;
-    width: 4rem;
+    width: 3.5rem;
     height: 2rem;
     border-radius: 1rem;
     -webkit-appearance: initial;
     border: 1px solid var(--accent1);
     background-color: var(--background);
     transition: background-color 200ms ease-in;
-    margin-right: 1rem;
+    margin-right: 2rem;
     
     &::after {
       position: absolute;
@@ -289,11 +291,11 @@
     }
 
     &:checked {
-      background-color: var(--background2);
+      background-color: var(--accent1);
     }
     
     &:checked::after {
-      left: 52%;
+      left: 45%;
       content:"";
     }
   }
