@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ModalState } from "../pages/dashboard";
 import styles from "../styles/Dashboard.module.scss";
 import { remBackendURL } from "./config";
-import { importMee6 } from "./settings/levels";
+import { importMee6, resetLevels } from "./settings/levels";
 import { Guild } from "./util/discordUtil";
 
 
@@ -173,10 +173,16 @@ const levels:SettingObject = {
 	],
   buttons: [
     {
-      name: "import from MEE6",
-      description: "Import levels and role settings from MEE6. This will overwrite any existing levels and role settings. You must make your leaderboard public in the MEE6 leaderboard before importing, or it will fail.",
+      name: "Import from MEE6",
+      description: "Import levels and role settings from MEE6. This will overwrite any existing levels and role settings. You must make your leaderboard public in the MEE6 leaderboard before importing, or it will fail. This is permanent, and cannot be undone.",
       isDestructive: true,
       action: importMee6
+    },
+    {
+      name: "Reset levels",
+      description: "Reset all users' xp to 0. This is permanent, and cannot be undone.",
+      isDestructive: true,
+      action: resetLevels
     }
   ]
 }

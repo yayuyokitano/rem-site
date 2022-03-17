@@ -33,3 +33,29 @@ export async function importMee6(guildID:string) {
     message: "Successfully imported MEE6 leaderboard."
   }
 }
+
+export async function resetLevels(guildID:string) {
+  const callerID = localStorage.getItem("userID");
+  const token = Number(localStorage.getItem("token"));
+  const res = await fetch(
+    `${remBackendURL}/modify-levels`, {
+      method: "POST",
+      body: JSON.stringify({
+        callerID,
+        token,
+        guildID,
+        operation: "reset"
+      })
+    }
+  )
+  if (!res.ok) {
+    return {
+      success: false,
+      message: "Error resetting levels."
+    }
+  }
+  return {
+    success: true,
+    message: "Successfully resetted levels."
+  }
+}

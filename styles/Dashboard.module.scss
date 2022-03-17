@@ -261,14 +261,13 @@
 
   .subcommandtoggle {
     position: relative;
-    background: white;
     width: 3.5rem;
     height: 2rem;
     border-radius: 1rem;
     -webkit-appearance: initial;
     border: 1px solid var(--accent1);
     background-color: var(--background);
-    transition: background-color 200ms ease-in;
+    transition: background-color 100ms ease-in;
     margin-right: 2rem;
     
     &::after {
@@ -336,11 +335,11 @@
 }
 
 .buttonsuccess {
-  background-color: var(--success);
+  background-color: var(--success2);
 }
 
 .buttonerror {
-  background-color: var(--error);
+  background-color: var(--error2);
 }
 
 .buttonmessage {
