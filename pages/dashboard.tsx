@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { useTheme } from "next-themes";
 import Head from "next/head";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { getCurrentUserStrict, getNewState, removeUserData } from "../helpers/util/discordAuth";
 import { getGuildList, Guild, Guilds, iconURL } from "../helpers/util/discordUtil";
 import { ThemeChanger } from "../helpers/util/themechanger";
@@ -181,8 +181,25 @@ function settingNavBack(setCategory:Dispatch<SetStateAction<string | undefined>>
 
 }
 
+export type ModalState = {
+  visible: boolean;
+  content: JSX.Element
+}
+
+function Modal(props:{children:React.ReactElement, className:string}) {
+  const {children, className} = props;
+  return (
+    <div className={className}>
+      <div className={styles.modal}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
 function GuildSettings(props:{guild?:Guild, setGuild:Dispatch<SetStateAction<Guild | undefined>>}) {
 	let {guild, setGuild} = props;
+  const [modal, setModal] = useState<ModalState>({visible: false, content: <></>});
 	const [category, setCategory] = useState<string>();
 
 	if (typeof guild === "undefined") return <div><h3>Please select a server from the sidebar.</h3><p>You need administrator permission in a server for it to show up.</p></div>;
@@ -194,9 +211,10 @@ function GuildSettings(props:{guild?:Guild, setGuild:Dispatch<SetStateAction<Gui
 				</button>
 				<h2 className={styles.guildname}>{guild?.guild.name}</h2>
 			</header>
+      <Modal className={`${styles.modalcontainer} ${modal.visible ? styles.visible :""}`}>{modal.content}</Modal>
 			{ // show invite prompt if REM is not in server, otherwise show settings.
 				guild?.remIsMember ?
-				<SettingCategory guild={guild} category={category} setCategory={setCategory} /> :
+				<SettingCategory guild={guild} category={category} setCategory={setCategory} setModal={setModal} /> :
 				<InvitePrompt guild={guild} />
 			}
 		</div>
