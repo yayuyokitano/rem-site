@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styles from "../styles/Dashboard.module.scss";
+import { remBackendURL } from "./config";
 import { importMee6 } from "./settings/levels";
 import { Guild } from "./util/discordUtil";
 
@@ -37,57 +38,57 @@ function SettingContent(props:{guildID:string, settingDetails:SettingObject}) {
 	return (
 		<div className={styles.settingcategory}>
 			<h3 className={styles.settingtitle}>{settingDetails.name}</h3>
-			<Commands commands={settingDetails.commands}/>
+			<Commands guildID={guildID} commands={settingDetails.commands}/>
       <Buttons guildID={guildID} buttons={settingDetails.buttons} />
 		</div>
 	);
 }
 
-function Commands(props:{commands:Command[]}) {
-	const {commands} = props;
+function Commands(props:{guildID:string, commands:Command[]}) {
+	const {guildID, commands} = props;
 	if (commands.length === 0) return <></>;
 	return (
 		<ul className={styles.commandlist}>{
 			commands.map((command, index) => {
 				return (
-					<li key={index} className={styles.command}><CommandElement command={command} /></li>
+					<li key={index} className={styles.command}><CommandElement guildID={guildID} command={command} /></li>
 				)
 			})
 		}</ul>
 	)
 }
 
-function CommandElement(props:{ command:Command }) {
-	const { command } = props;
+function CommandElement(props:{ guildID:string, command:Command }) {
+	const { guildID, command } = props;
 	return (
 		<div>
 			<h4 className={styles.commandname}>{command.name}</h4>
 			<p className={styles.commanddescription}>{command.description}</p>
-			<Subcommands command={command} />
+			<Subcommands guildID={guildID} command={command} />
 		</div>
 	)
 }
 
-function Subcommands(props:{ command:Command }) {
-	const { command } = props;
+function Subcommands(props:{ guildID:string, command:Command }) {
+	const { guildID, command } = props;
 	if (command.subcommands.length === 0) return <></>;
 	return (
 		<ul className={styles.subcommandlist}>{
 			command.subcommands.map((subcommand, index) => {
 				return (
-					<li key={index} className={styles.subcommand}><SubcommandElement command={command} subcommand={subcommand} /></li>
+					<li key={index} className={styles.subcommand}><SubcommandElement guildID={guildID} command={command} subcommand={subcommand} /></li>
 				)
 			})
 		}</ul>
 	)
 }
 
-function SubcommandElement(props:{ command:Command, subcommand:Subcommand }) {
-	const { command, subcommand } = props;
+function SubcommandElement(props:{ guildID:string, command:Command, subcommand:Subcommand }) {
+	const { guildID, command, subcommand } = props;
 	return (
     <label htmlFor={`${command.name}-${subcommand.name}`}>
 		  <div className={styles.subcommandcontainer}>
-        <SubcommandToggle command={command} subcommand={subcommand} />
+        <SubcommandToggle guildID={guildID} command={command} subcommand={subcommand} />
         <div className={styles.subcommandcontent}>
           <h4 className={styles.subcommandname}>{subcommand.name}</h4>
           <p className={styles.subcommanddescription}>{subcommand.description}</p>
@@ -98,10 +99,29 @@ function SubcommandElement(props:{ command:Command, subcommand:Subcommand }) {
 	)
 }
 
-function SubcommandToggle(props:{ command:Command, subcommand:Subcommand }) {
-	const { command, subcommand } = props;
+async function updateCommand(guildID:string, commandName:string) {
+  const subCommands = [...document.querySelectorAll(`.${styles.subcommandtoggle}[data-command=${commandName}]:checked`)].map((subCommand) => {
+    return `${commandName}${subCommand.getAttribute("data-subcommand")}`;
+  })
+  const userID = localStorage.getItem("userID");
+  const token = Number(localStorage.getItem("token"));
+  await fetch(`${remBackendURL}/interaction`, {
+    method: "POST",
+    body: JSON.stringify({
+      name: commandName,
+      subCommands,
+      guildID: guildID,
+      userID,
+      token,
+      defaultPermission: true
+    })
+  })
+}
+
+function SubcommandToggle(props:{ guildID:string, command:Command, subcommand:Subcommand }) {
+	const { guildID, command, subcommand } = props;
 	return (
-		<input type="checkbox" id={`${command.name}-${subcommand.name}`} />
+		<input type="checkbox" className={styles.subcommandtoggle} data-command={command.name} data-subcommand={subcommand.name} onChange={()=> {updateCommand(guildID, command.name)}} id={`${command.name}-${subcommand.name}`} />
 	)
 }
 
